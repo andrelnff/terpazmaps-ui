@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { createDrawingManager, setDrawingOptions, setupEventListeners } from '../components/DrawingManagerFunctions'; 
+import { createDrawingManager, setupEventListeners } from '../components/DrawingManagerFunctions';
 import { post } from '../service/mapService';
 
 
@@ -12,11 +12,6 @@ export function useDrawingManager(map) {
   useEffect(() => {
     if (map) {
       createDrawingManager(drawingManagerRef);
-      setDrawingOptions(drawingManagerRef, [
-        window.google.maps.drawing.OverlayType.MARKER,
-        window.google.maps.drawing.OverlayType.POLYGON,
-        window.google.maps.drawing.OverlayType.POLYLINE,
-      ]);
       setupEventListeners(drawingManagerRef, polygonRef, overlaysRef);
       drawingManagerRef.current.setMap(map);
     }
@@ -25,12 +20,7 @@ export function useDrawingManager(map) {
   const deleteAllOverlays = () => {
     overlaysRef.current.forEach(overlay => overlay.setMap(null));
     overlaysRef.current = [];
-    polygonRef.current = null; 
-    setDrawingOptions(drawingManagerRef, [
-      window.google.maps.drawing.OverlayType.MARKER,
-      window.google.maps.drawing.OverlayType.POLYGON,
-      window.google.maps.drawing.OverlayType.POLYLINE,
-    ]);
+    polygonRef.current = null;
     drawingManagerRef.current.setDrawingMode(null);
   };
 
@@ -62,5 +52,5 @@ export function useDrawingManager(map) {
     }
   };
 
-  return { deleteAllOverlays, savePolygonGeoJSON };
+  return { deleteAllOverlays, savePolygonGeoJSON, drawingManager: drawingManagerRef.current };
 }
