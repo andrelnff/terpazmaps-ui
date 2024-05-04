@@ -7,3 +7,12 @@ export async function get() {
     }
     return await response.json();
 }
+
+
+export async function getStreetData(regionId) {
+  const response = await fetch(`https://criteriontecnologia.store/public/api/v5/geojson/region/${regionId}/streets`);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return await response.json();
+}
