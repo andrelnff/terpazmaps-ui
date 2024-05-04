@@ -34,7 +34,7 @@ export function setupEventListeners(drawingManagerRef, polygonRef, overlaysRef) 
           var contains = false;
           if (event.type === 'marker') {
             contains = window.google.maps.geometry.poly.containsLocation(event.overlay.getPosition(), polygonRef.current);
-          } else { // polyline
+          } else { 
             var path = event.overlay.getPath();
             contains = true;
             for (var i = 0; i < path.getLength(); i++) {
