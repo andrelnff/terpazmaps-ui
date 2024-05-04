@@ -8,6 +8,7 @@ function GoogleMap() {
     if (window.google && window.google.maps) {
       const mapInstance = new window.google.maps.Map(document.getElementById("map"), {
         center: { lat: -1.4031, lng: -48.4307 },
+        disableDefaultUI: true,
         zoom: 13,
       });
 
