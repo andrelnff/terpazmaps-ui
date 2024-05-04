@@ -45,7 +45,6 @@ export function useDrawingManager(map) {
           coordinates: [coordinates]
         }
       };
-      console.log(geoJSON);
       const timestamp = new Date().getTime();
       const mapName = 'mapa' + timestamp.toString();
   
