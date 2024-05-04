@@ -2,7 +2,8 @@ import React from "react";
 import GoogleMap from "./components/GoogleMap";
 
 function App() {
-  return <GoogleMap />;
+  return (
+      <GoogleMap />
+  );
 }
-
 export default App;
