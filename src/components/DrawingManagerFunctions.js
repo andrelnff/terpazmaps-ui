@@ -1,6 +1,6 @@
 export function createDrawingManager(drawingManagerRef) {
   drawingManagerRef.current = new window.google.maps.drawing.DrawingManager({
-    drawingControl: true,
+    drawingControl: false,
     markerOptions: {
       icon: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
     }
@@ -24,14 +24,10 @@ export function setupEventListeners(drawingManagerRef, polygonRef, overlaysRef) 
       overlaysRef.current.push(event.overlay);
       if (event.type === 'polygon') {
         polygonRef.current = event.overlay;
-        setDrawingOptions(drawingManagerRef, [
-          window.google.maps.drawing.OverlayType.MARKER,
-          window.google.maps.drawing.OverlayType.POLYLINE,
-        ]);
         drawingManagerRef.current.setDrawingMode(null);
       } else if (event.type === 'marker' || event.type === 'polyline') {
         if (polygonRef.current) {
-          var contains = false;
+          let contains = false;
           if (event.type === 'marker') {
             contains = window.google.maps.geometry.poly.containsLocation(event.overlay.getPosition(), polygonRef.current);
           } else { 
