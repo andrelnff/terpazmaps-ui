@@ -1,10 +1,12 @@
 import React from 'react';
-import {Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, styled, useTheme} from "@mui/material";
+import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, styled, useTheme } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import InsightsIcon from '@mui/icons-material/Insights';
+import InfoIcon from '@mui/icons-material/Info';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 const drawerWidth = 240;
 
@@ -16,9 +18,15 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
-export function MenuLateral({ open, handleDrawerClose  }) {
-
+export function MenuLateral({ open, handleDrawerClose }) {
     const theme = useTheme();
+
+    const drawerItems = [
+        { text: 'Navegar', icon: <FmdGoodIcon /> },
+        { text: 'Estatísticas', icon: <InsightsIcon /> },
+        { text: 'Sobre', icon: <InfoIcon /> },
+        { text: 'Créditos', icon: <DescriptionIcon /> },
+    ];
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -42,13 +50,13 @@ export function MenuLateral({ open, handleDrawerClose  }) {
                     </IconButton>
                 </DrawerHeader>
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
+                    {drawerItems.map((item) => (
+                        <ListItem key={item.text} disablePadding>
                             <ListItemButton>
                                 <ListItemIcon sx={{ color: '#ffffff' }}>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                    {item.icon}
                                 </ListItemIcon>
-                                <ListItemText primary={text} sx={{ color: '#ffffff' }}/>
+                                <ListItemText primary={item.text} sx={{ color: '#ffffff' }} />
                             </ListItemButton>
                         </ListItem>
                     ))}
