@@ -1,23 +1,12 @@
-import { useState, useRef, useCallback } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import { get } from '../service/terPazMapService';
-
+import { useMapCenter } from './useMapCenter'; // Importe o novo hook
 
 export function useGeoJSON(map) {
   const polygons = useRef([]);
   const [isLoading, setIsLoading] = useState(false);
   const [idNameList, setIdNameList] = useState([]);
-
-  // Função para centralizar o mapa
-  const centerMap = (coordinates) => {
-    map.setCenter({ lat: coordinates[1], lng: coordinates[0] });
-    map.setZoom(15);
-  };
-
-  // Função para lidar com o clique no polígono
-  const handlePolygonClick = (mapData) => {
-    const center = mapData.properties.Centro.coordinates;
-    centerMap(center);
-  };
+  const { handlePolygonClick } = useMapCenter(map);
 
   const fetchGeoJSON = useCallback(async () => {
     setIsLoading(true);
@@ -44,8 +33,8 @@ export function useGeoJSON(map) {
               strokeWeight: 2,
             });
 
-            polygon.addListener('click', (event) => {
-              handlePolygonClick(mapData);
+            polygon.addListener('click', () => {
+              handlePolygonClick(mapData); // Use a função do novo hook
             });
 
             polygon.setMap(map);
@@ -60,7 +49,7 @@ export function useGeoJSON(map) {
     }
     setIsLoading(false);
     setIdNameList(tempList);
-  }, [map]);
+  }, [map, handlePolygonClick]);
 
-  return { fetchGeoJSON, isLoading, idNameList, centerMap, handlePolygonClick };
+  return { fetchGeoJSON, isLoading, idNameList };
 }
