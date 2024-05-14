@@ -1,26 +1,20 @@
-import React from "react";
-import GoogleMap from "./components/GoogleMap";
-import { CustomAppBar } from "./components/appBar/CustomAppBar"
-import './App.css';
-import {MenuLateral} from "./components/menuLateral/MenuLateral";
+import React from 'react';
+import { AuthProvider } from "./context/authContext";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import MapsPage from "./pages/MapsPage/MapsPage";
 
 function App() {
-    const [open, setOpen] = React.useState(false);
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
     return (
-        <div className="App">
-            <CustomAppBar open={open} handleDrawerOpen={handleDrawerOpen} />
-            <MenuLateral open={open} handleDrawerClose={handleDrawerClose} />
-            <GoogleMap />
-        </div>
+        <BrowserRouter>
+            <AuthProvider>
+                <Routes>
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/maps" element={<MapsPage />} />
+                    <Route path="*" element={<Navigate to="/login" replace />} />
+                </Routes>
+            </AuthProvider>
+        </BrowserRouter>
     );
 }
 
