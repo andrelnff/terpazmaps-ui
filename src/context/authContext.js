@@ -1,5 +1,7 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {handleLogin, isTokenValid} from "../service/authService";
+import Cookies from 'js-cookie';
+
 
 export const AuthContext = createContext(null);
 
@@ -44,6 +46,8 @@ export const AuthProvider = ({ children }) => {
     }
 
     const logout = () => {
+        Cookies.remove('authToken')
+        localStorage.removeItem('authData');
         setAuthData(null);
     };
 
