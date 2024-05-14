@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import {styled} from "@mui/material";
+import UserMenuSettings from "../userMenuSettings/UserMenuSettings";
 
 const drawerWidth = 240;
 
@@ -25,8 +26,16 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-
 export function CustomAppBar({ open, handleDrawerOpen }) {
+    const [anchorElUser, setAnchorElUser] = useState(null);
+
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
 
     return (
         <AppBar position="fixed" open={open}>
@@ -40,9 +49,14 @@ export function CustomAppBar({ open, handleDrawerOpen }) {
                 >
                     <MenuIcon />
                 </IconButton>
-                <Typography variant="h6" noWrap component="div">
+                <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
                     TerPazMaps
                 </Typography>
+                <UserMenuSettings
+                    anchorElUser={anchorElUser}
+                    handleOpenUserMenu={handleOpenUserMenu}
+                    handleCloseUserMenu={handleCloseUserMenu}
+                />
             </Toolbar>
         </AppBar>
     );
