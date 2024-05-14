@@ -7,6 +7,7 @@ const mock = new MockAdapter(axios);
 mock.onPost('/login').reply(config => {
     const { username } = JSON.parse(config.data);
     return [200, {
+        userImage: "https://avatars.githubusercontent.com/u/91633995?s=400&u=991bd3e22c83d97d41db6e5bc2233438183aaf72&v=4",
         username: username,
         token: 'token.mock.json.123456'
     }];
