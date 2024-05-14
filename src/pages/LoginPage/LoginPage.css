@@ -19,6 +19,7 @@
 }
 
 .login-form {
+    font-family: 'Roboto', sans-serif;
     background-color: #f0f0f0;
     padding: 40px;
     border-radius: 7px;
