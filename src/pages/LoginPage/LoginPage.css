@@ -1,3 +1,13 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    flex-direction: column;
+    background-color: #0468BF;
+}
+
 .login-container {
     display: flex;
     justify-content: center;
@@ -19,10 +29,18 @@
     gap: 5px
 }
 
+.side-image {
+    margin-bottom: 25px;
+    width: 300px;
+    height: auto;
+}
+
+
 .login-form h1{
     padding: 0;
     margin: 0;
     font-weight: 500;
+    font-family: Arial, sans-serif;
     font-size: 2.3em;
 }
 

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './LoginPage.css';
 import {useAuth} from "../../context/authContext";
 import {useNavigate} from "react-router-dom";
+import terpaz from "../../assets/terpaz.png";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -27,8 +28,9 @@ function LoginPage() {
     };
 
     return (
-        <div className="login-container">
+        <div className="container">
             <form className="login-form" onSubmit={handleLogin}>
+                <img className="side-image" src={terpaz} alt="Descrição da imagem"/>
                 <div className="label-form">
                     <h1>Login</h1>
                     <p>Digite os seus dados de acesso nos campos abaixo.</p>
@@ -49,6 +51,7 @@ function LoginPage() {
                     Ainda não possui cadastro? <a href="/cadastro">Clique aqui</a>
                 </div>
             </form>
+
         </div>
     );
 }
