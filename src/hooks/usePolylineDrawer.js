@@ -15,20 +15,31 @@ export function usePolylineDrawer(map) {
 
     try {
       const data = await getStreetData(regionId);
+      console.log(data);
       if (data && data.features) {
         data.features.forEach(street => {
-          const polyline = new window.google.maps.Polyline({
-            path: street.geometry.coordinates.map(coord => ({ lat: coord[1], lng: coord[0] })),
-            map: map,
-            strokeColor: street.properties.color,
-            strokeOpacity: street.properties['stroke-opacity'],
-            strokeWeight: 2,
-          });
+          let path;
+          if (street.geometry.type === "Polygon") {
+            path = street.geometry.coordinates[0].map(coord => ({ lat: coord[1], lng: coord[0] }));
+          } else if (street.geometry.type === "LineString") {
+            path = street.geometry.coordinates.map(coord => ({ lat: coord[1], lng: coord[0] }));
+          }
 
-          polyline.setMap(map);
-          polylines.current.push(polyline);
+          if (path) {
+            const polyline = new window.google.maps.Polyline({
+              path: path,
+              map: map,
+              strokeColor: street.properties.color,
+              strokeOpacity: street.properties['stroke-opacity'],
+              strokeWeight: 2,
+            });
+
+            polyline.setMap(map);
+            polylines.current.push(polyline);
+          }
         });
       }
+
     } catch (err) {
       setError(err.message);
       console.error('Erro ao buscar dados das ruas:', err);
