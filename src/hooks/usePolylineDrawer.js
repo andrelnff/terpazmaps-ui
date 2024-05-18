@@ -5,7 +5,7 @@ export function usePolylineDrawer(map) {
   const polylines = useRef([]);
   const [streetsData, setStreetsData] = useState(null);
   const [error, setError] = useState(null);
-  const [isLoading] = useState(false); // Estado de carregamento para as ruas
+  const [isLoading] = useState(false);
 
   const drawStreets = async (regionId, setLoading) => {
     setLoading(true);
