@@ -1,12 +1,13 @@
 import { useRef, useState, useCallback } from 'react';
 import { getAllRegions } from '../service/terPazMapService';
-import { useMapCenter } from './useMapCenter'; // Importe o novo hook
+import { useMapCenter } from './useMapCenter';
+import {useMap} from "../context/mapContext";
 
 export function useGeoJSON(map) {
   const polygons = useRef([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [idNameList, setIdNameList] = useState([]);
   const { handlePolygonClick } = useMapCenter(map);
+  const { updateIdNameList } = useMap();
 
   const fetchGeoJSON = useCallback(async () => {
     setIsLoading(true);
@@ -34,7 +35,7 @@ export function useGeoJSON(map) {
             });
 
             polygon.addListener('click', () => {
-              handlePolygonClick(mapData); // Use a função do novo hook
+              handlePolygonClick(mapData);
             });
 
             polygon.setMap(map);
@@ -48,8 +49,8 @@ export function useGeoJSON(map) {
       console.error('Erro ao recuperar GeoJSON:', error);
     }
     setIsLoading(false);
-    setIdNameList(tempList);
-  }, [map, handlePolygonClick]);
+    updateIdNameList(tempList);
+  }, [updateIdNameList, map, handlePolygonClick]);
 
-  return { fetchGeoJSON, isLoading, idNameList };
+  return { fetchGeoJSON, isLoading};
 }
