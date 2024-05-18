@@ -1,5 +1,5 @@
 import { useRef, useState, useCallback } from 'react';
-import { get } from '../service/terPazMapService';
+import { getAllRegions } from '../service/terPazMapService';
 import { useMapCenter } from './useMapCenter'; // Importe o novo hook
 
 export function useGeoJSON(map) {
@@ -18,7 +18,7 @@ export function useGeoJSON(map) {
 
       polygons.current = [];
 
-      const userData = await get();
+      const userData = await getAllRegions();
       if (map && userData) {
         const mapas = userData.features;
         mapas.forEach((mapData) => {
