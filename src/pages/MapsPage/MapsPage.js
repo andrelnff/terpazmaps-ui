@@ -5,6 +5,7 @@ import GoogleMap from "../../components/GoogleMap";
 import {isTokenValid} from "../../service/authService";
 import {useNavigate} from "react-router-dom";
 import {FiltroRuas} from "../../components/filtroRuas/FiltroRuas";
+import SelectRegion from "../../components/selectRegion/SelectRegion";
 
 function MapsPage() {
     const navigate = useNavigate();
@@ -33,6 +34,7 @@ function MapsPage() {
         <div className="App">
             <CustomAppBar open={open} handleDrawerOpen={handleDrawerOpen} />
             <MenuLateral open={open} handleDrawerClose={handleDrawerClose} />
+            <SelectRegion/>
             <FiltroRuas/>
             <GoogleMap />
         </div>
