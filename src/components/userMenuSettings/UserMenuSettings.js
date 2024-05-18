@@ -22,7 +22,6 @@ const UserMenuSettings = ({ anchorElUser, handleOpenUserMenu, handleCloseUserMen
 
 
     const handleLogout = () => {
-        console.log("tentei sair")
         logout();
         handleCloseUserMenu();
         navigate('/login');

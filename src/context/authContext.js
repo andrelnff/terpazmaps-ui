@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
                 setAuthData(response.data);
                 console.log('Login bem-sucedido:', response.data);
             } else {
-                console.log('Dados de login inválidos');
+                console.error('Dados de login inválidos');
             }
         } catch (error) {
             console.error('Erro de autenticação', error);
