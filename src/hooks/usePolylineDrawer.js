@@ -1,20 +1,20 @@
-import { useRef, useState } from 'react';
-import {getStreetData} from "../service/terPazMapService";
+import { useRef, useState, useCallback } from 'react';
+import { getStreetData } from "../service/terPazMapService";
 
 export function usePolylineDrawer(map) {
   const polylines = useRef([]);
-  const [streetsData, setStreetsData] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading] = useState(false);
 
-  const drawStreets = async (regionId, setLoading) => {
+  const drawStreets = useCallback(async (regionId, setLoading) => {
+    if (!setLoading) return;
+
     setLoading(true);
     polylines.current.forEach(polyline => polyline.setMap(null));
     polylines.current = [];
 
     try {
       const data = await getStreetData(regionId);
-      setStreetsData(data);
       if (data && data.features) {
         data.features.forEach(street => {
           const polyline = new window.google.maps.Polyline({
@@ -34,7 +34,7 @@ export function usePolylineDrawer(map) {
       console.error('Erro ao buscar dados das ruas:', err);
     }
     setLoading(false);
-  };
+  }, [map]);
 
-  return { streetsData, error, isLoading, drawStreets };
+  return { error, isLoading, drawStreets };
 }
