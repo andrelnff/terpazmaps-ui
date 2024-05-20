@@ -2,14 +2,12 @@ import { useRef, useState, useCallback } from 'react';
 import { getAllRegions } from '../service/terPazMapService';
 import { useMapCenter } from './useMapCenter';
 import {useMap} from "../context/mapContext";
-import {usePolylineDrawer} from "./usePolylineDrawer";
 
 export function useGeoJSON(map) {
   const polygons = useRef([]);
   const [isLoading, setIsLoading] = useState(false);
   const { handlePolygonClick } = useMapCenter(map);
   const { updateIdNameList } = useMap();
-  const {drawStreets} = usePolylineDrawer(map);
 
   const fetchGeoJSON = useCallback(async () => {
     setIsLoading(true);
@@ -38,7 +36,6 @@ export function useGeoJSON(map) {
 
             polygon.addListener('click', () => {
               handlePolygonClick(mapData);
-              drawStreets(mapData.properties.ID, setIsLoading);
             });
 
             polygon.setMap(map);
@@ -53,7 +50,7 @@ export function useGeoJSON(map) {
     }
     setIsLoading(false);
     updateIdNameList(tempList);
-  }, [updateIdNameList, map, handlePolygonClick, drawStreets]);
+  }, [updateIdNameList, map, handlePolygonClick]);
 
   return { fetchGeoJSON, isLoading};
 }

@@ -1,51 +1,65 @@
-import { useRef, useState, useCallback } from 'react';
+import { useState, useCallback, useContext, useRef, useEffect } from 'react';
 import { getStreetData } from "../service/terPazMapService";
+import { MapContext } from "../context/mapContext";
 
-export function usePolylineDrawer(map) {
+export function usePolylineDrawer() {
+  const { map, activeFilters } = useContext(MapContext);
+  const [allStreets, setAllStreets] = useState(null);
   const polylines = useRef([]);
-  const [error, setError] = useState(null);
-  const [isLoading] = useState(false);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
-  const drawStreets = useCallback(async (regionId, setLoading) => {
-    if (!setLoading) return;
+  const fetchStreets = useCallback(async (regionId) => {
+    setIsDataLoaded(false); // Reset the isDataLoaded before fetching new data
+    try {
+      const data = await getStreetData(regionId);
+      setAllStreets(data);
+      setIsDataLoaded(true); // Set to true after successful data fetch
+    } catch (err) {
+      console.error('Erro ao buscar dados das ruas:', err);
+    }
+  }, []);
 
-    setLoading(true);
+  const drawStreets = useCallback(() => {
+    console.log("isLoad:", isDataLoaded);
+    if (!isDataLoaded) return;
+
     polylines.current.forEach(polyline => polyline.setMap(null));
     polylines.current = [];
 
-    try {
-      const data = await getStreetData(regionId);
-      console.log(data);
-      if (data && data.features) {
-        data.features.forEach(street => {
-          let path;
-          if (street.geometry.type === "Polygon") {
-            path = street.geometry.coordinates[0].map(coord => ({ lat: coord[1], lng: coord[0] }));
-          } else if (street.geometry.type === "LineString") {
-            path = street.geometry.coordinates.map(coord => ({ lat: coord[1], lng: coord[0] }));
-          }
+    if (allStreets && allStreets.features) {
+      const filteredStreets = allStreets.features.filter(street =>
+          activeFilters.includes(street.properties.condition)
+      );
 
-          if (path) {
-            const polyline = new window.google.maps.Polyline({
-              path: path,
-              map: map,
-              strokeColor: street.properties.color,
-              strokeOpacity: street.properties['stroke-opacity'],
-              strokeWeight: 2,
-            });
+      filteredStreets.forEach(street => {
+        let path;
+        if (street.geometry.type === "Polygon") {
+          path = street.geometry.coordinates[0].map(coord => ({ lat: coord[1], lng: coord[0] }));
+        } else if (street.geometry.type === "LineString") {
+          path = street.geometry.coordinates.map(coord => ({ lat: coord[1], lng: coord[0] }));
+        }
 
-            polyline.setMap(map);
-            polylines.current.push(polyline);
-          }
-        });
-      }
+        if (path) {
+          const polyline = new window.google.maps.Polyline({
+            path: path,
+            map: map,
+            strokeColor: street.properties.color,
+            strokeOpacity: street.properties['stroke-opacity'],
+            strokeWeight: 2,
+          });
 
-    } catch (err) {
-      setError(err.message);
-      console.error('Erro ao buscar dados das ruas:', err);
+          polyline.setMap(map);
+          polylines.current.push(polyline);
+        }
+      });
     }
-    setLoading(false);
-  }, [map]);
+  }, [isDataLoaded, allStreets, activeFilters, map]);
 
-  return { error, isLoading, drawStreets };
+  useEffect(() => {
+    if (isDataLoaded) {
+      drawStreets();
+    }
+  }, [isDataLoaded, activeFilters, drawStreets]);
+
+  return { fetchStreets, drawStreets };
 }

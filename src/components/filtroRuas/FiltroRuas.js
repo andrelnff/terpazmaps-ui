@@ -1,17 +1,20 @@
-import {useEffect, useState} from "react";
-import {Button, Drawer} from "@mui/material";
-import {getStreetConditions} from "../../service/terPazMapService";
+import React, { useState, useEffect, useCallback } from 'react';
+import { Button, Drawer } from "@mui/material";
 import FiltroLista from "../filtroLista/FiltroLista";
-
+import { getStreetConditions } from "../../service/terPazMapService";
+import { useMap } from "../../context/mapContext";
+import { usePolylineDrawer } from "../../hooks/usePolylineDrawer";
 
 export function FiltroRuas() {
     const [state, setState] = useState({
         right: false,
     });
     const [filtros, setFiltros] = useState([]);
+    const { activeFilters, setActiveFilters, openDrawer, closeDrawer } = useMap();
+    const { drawStreets } = usePolylineDrawer();
 
     useEffect(() => {
-        const fetchStreetConditions = async () => {
+        const initializeFilters = async () => {
             try {
                 const conditions = await getStreetConditions();
                 const initialFilters = conditions.map(condition => ({
@@ -25,26 +28,35 @@ export function FiltroRuas() {
             }
         };
 
-        fetchStreetConditions();
+        initializeFilters();
     }, []);
 
-    const handleToggle = (label) => {
-        const newFiltros = filtros.map((filtro) => {
-            if (filtro.label === label) {
-                return { ...filtro, ativo: !filtro.ativo };
-            }
-            return filtro;
-        });
+    useEffect(() => {
+        const newActiveFilters = filtros.filter(filtro => filtro.ativo).map(filtro => filtro.label);
+        console.log(newActiveFilters);
+        setActiveFilters(newActiveFilters);
+    }, [filtros, setActiveFilters]);
+
+    useEffect(() => {
+        drawStreets();
+    }, [activeFilters, drawStreets]);
+
+    const handleToggle = useCallback((label) => {
+        const newFiltros = filtros.map(filtro => ({
+            ...filtro,
+            ativo: filtro.label === label ? !filtro.ativo : filtro.ativo
+        }));
         setFiltros(newFiltros);
-    };
+    }, [filtros]);
 
-    const toggleDrawer = (anchor, open) => (event) => {
-        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
+    const toggleDrawer = useCallback((anchor, open) => {
+        setState(prevState => ({ ...prevState, [anchor]: open }));
+        if (open) {
+            openDrawer();
+        } else {
+            closeDrawer();
         }
-
-        setState({ ...state, [anchor]: open });
-    };
+    }, [openDrawer, closeDrawer]);
 
     return (
         <div>
@@ -55,15 +67,14 @@ export function FiltroRuas() {
                     bottom: 16,
                     zIndex: 9999,
                 }}
-                onClick={toggleDrawer('right', true)}
+                onClick={() => toggleDrawer('right', true)}
             >
                 Abrir Drawer
             </Button>
-
             <Drawer
                 anchor='right'
                 open={state['right']}
-                onClose={toggleDrawer('right', false)}
+                onClose={() => toggleDrawer('right', false)}
                 sx={{
                     '& .MuiDrawer-paper': {
                         boxSizing: 'border-box',
