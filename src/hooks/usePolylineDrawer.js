@@ -20,7 +20,6 @@ export function usePolylineDrawer() {
   }, []);
 
   const drawStreets = useCallback(() => {
-    console.log("isLoad:", isDataLoaded);
     if (!isDataLoaded) return;
 
     polylines.current.forEach(polyline => polyline.setMap(null));

@@ -43,7 +43,6 @@ export const isTokenValid = async () => {
     }
     try {
         const response = await axios.post('/validate-token', { token });
-        console.log("tokenRevalidado: " + response.data.token);
         return response.data.isValid;
     } catch (error) {
         console.error('Erro ao validar o token', error);

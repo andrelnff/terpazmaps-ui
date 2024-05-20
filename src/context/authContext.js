@@ -10,7 +10,6 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const data = localStorage.getItem('authData');
-        console.log(data)
         if (data) {
             setAuthData(JSON.parse(data));
         } else {
@@ -36,7 +35,6 @@ export const AuthProvider = ({ children }) => {
             if (response && response.data.token) {
                 localStorage.setItem('authData', JSON.stringify(response.data));
                 setAuthData(response.data);
-                console.log('Login bem-sucedido:', response.data);
             } else {
                 console.error('Dados de login inválidos');
             }
