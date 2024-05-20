@@ -2,7 +2,7 @@ import { useState, useCallback, useContext } from 'react';import {usePolylineDra
 import {MapContext} from "../context/mapContext";
 
 export function useMapCenter() {
-    const { map, setActiveFilters } = useContext(MapContext);
+    const { map, desativarTodosFiltros } = useContext(MapContext);
     const [selectedId, setSelectedId] = useState(null);
     const { fetchStreets } = usePolylineDrawer();
 
@@ -22,8 +22,8 @@ export function useMapCenter() {
         const center = mapData.properties.Centro.coordinates;
         handleMapSelect(mapData.properties.ID, center);
         fetchStreets(mapData.properties.ID);
-        setActiveFilters([]);
-    }, [handleMapSelect, fetchStreets, setActiveFilters]);
+        desativarTodosFiltros();
+    }, [handleMapSelect, fetchStreets, desativarTodosFiltros]);
 
     return { handlePolygonClick, handleMapSelect, selectedId };
 }

@@ -9,8 +9,7 @@ export function FiltroRuas() {
     const [state, setState] = useState({
         right: false,
     });
-    const [filtros, setFiltros] = useState([]);
-    const { activeFilters, setActiveFilters, openDrawer, closeDrawer } = useMap();
+    const { filtros, setFiltros, activeFilters, setActiveFilters, openDrawer, closeDrawer } = useMap();
     const { drawStreets } = usePolylineDrawer();
 
     useEffect(() => {
@@ -28,12 +27,15 @@ export function FiltroRuas() {
             }
         };
 
-        initializeFilters();
-    }, []);
+        if (filtros.length === 0) { // Verifica se o estado global de filtros está vazio antes de inicializar
+            initializeFilters();
+        }
+    }, [setFiltros, filtros.length]);
 
     useEffect(() => {
         const newActiveFilters = filtros.filter(filtro => filtro.ativo).map(filtro => filtro.label);
         setActiveFilters(newActiveFilters);
+        console.log(newActiveFilters)
     }, [filtros, setActiveFilters]);
 
     useEffect(() => {
@@ -46,7 +48,7 @@ export function FiltroRuas() {
             ativo: filtro.label === label ? !filtro.ativo : filtro.ativo
         }));
         setFiltros(newFiltros);
-    }, [filtros]);
+    }, [filtros, setFiltros]);
 
     const toggleDrawer = useCallback((anchor, open) => {
         setState(prevState => ({ ...prevState, [anchor]: open }));

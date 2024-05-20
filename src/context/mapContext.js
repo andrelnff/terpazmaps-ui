@@ -7,6 +7,15 @@ export const MapProvider = ({ children }) => {
     const [activeFilters, setActiveFilters] = useState([]);
     const [map, setMapState] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [filtros, setFiltros] = useState([]); // Estado global para filtros
+
+    const desativarTodosFiltros = useCallback(() => {
+        setFiltros(filtrosAnteriores => filtrosAnteriores.map(filtro => ({
+            ...filtro,
+            ativo: false
+        })));
+    }, [setFiltros]); // Atualiza para usar setFiltros
+
 
     const updateIdNameList = useCallback((newList) => {
         setIdNameList(newList);
@@ -27,11 +36,15 @@ export const MapProvider = ({ children }) => {
         setDrawerOpen(false);
     }, []);
 
+
     const setMap = useCallback((mapInstance) => {
         setMapState(mapInstance);
     }, []);
 
     const value = useMemo(() => ({
+        filtros,
+        setFiltros,
+        desativarTodosFiltros,
         idNameList,
         updateIdNameList,
         activeFilters,
@@ -42,7 +55,7 @@ export const MapProvider = ({ children }) => {
         openDrawer,
         closeDrawer,
         centerMapOnRegion
-    }), [idNameList, updateIdNameList, activeFilters, map, setMap, drawerOpen, openDrawer, closeDrawer, centerMapOnRegion]);
+    }), [filtros, desativarTodosFiltros, idNameList, updateIdNameList, activeFilters, map, setMap, drawerOpen, openDrawer, closeDrawer, centerMapOnRegion]);
 
     return (
         <MapContext.Provider value={value}>
