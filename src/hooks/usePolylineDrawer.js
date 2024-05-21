@@ -1,19 +1,24 @@
 import { useState, useCallback, useContext, useRef, useEffect } from 'react';
 import { getStreetData } from "../service/terPazMapService";
 import { MapContext } from "../context/mapContext";
+import {useLoading} from "../context/loadingContext";
 
 export function usePolylineDrawer() {
   const { map, activeFilters } = useContext(MapContext);
   const [allStreets, setAllStreets] = useState(null);
   const polylines = useRef([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const { startLoading, stopLoading } = useLoading();
+
 
   const fetchStreets = useCallback(async (regionId) => {
     setIsDataLoaded(false); // Reset the isDataLoaded before fetching new data
     try {
+      startLoading();
       const data = await getStreetData(regionId);
       setAllStreets(data);
       setIsDataLoaded(true); // Set to true after successful data fetch
+      stopLoading();
     } catch (err) {
       console.error('Erro ao buscar dados das ruas:', err);
     }
