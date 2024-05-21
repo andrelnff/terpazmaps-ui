@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useDrawingManager } from '../../hooks/useDrawingManager';
 import { useGeoJSON } from '../../hooks/useGeoJSON';
 import './DrawingManager.css';
-import Loading from '../loading/Loading';
 import DrawingControls from "../drawingControls/DrawingControls";
+import {Loading} from "../loading/Loading";
 
 function DrawingManager({ map }) {
   const { deleteAllOverlays, savePolygonGeoJSON, drawingManager } = useDrawingManager(map);
