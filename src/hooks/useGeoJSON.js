@@ -1,16 +1,18 @@
-import { useRef, useState, useCallback } from 'react';
+import { useRef,  useCallback } from 'react';
 import { getAllRegions } from '../service/terPazMapService';
 import { useMapCenter } from './useMapCenter';
 import {useMap} from "../context/mapContext";
+import {useLoading} from "../context/loadingContext";
 
 export function useGeoJSON(map) {
   const polygons = useRef([]);
-  const [isLoading, setIsLoading] = useState(false);
   const { handlePolygonClick } = useMapCenter(map);
   const { updateIdNameList } = useMap();
+  const { startLoading, stopLoading } = useLoading();
+
 
   const fetchGeoJSON = useCallback(async () => {
-    setIsLoading(true);
+    startLoading();
     let tempList = [];
     try {
       polygons.current.forEach(polygon => {
@@ -48,9 +50,9 @@ export function useGeoJSON(map) {
     } catch (error) {
       console.error('Erro ao recuperar GeoJSON:', error);
     }
-    setIsLoading(false);
+    stopLoading();
     updateIdNameList(tempList);
   }, [updateIdNameList, map, handlePolygonClick]);
 
-  return { fetchGeoJSON, isLoading};
+  return { fetchGeoJSON};
 }

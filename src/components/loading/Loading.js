@@ -1,16 +1,28 @@
 import React from 'react';
-import './Loading.css'; 
+import { useLoading } from '../../context/loadingContext';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
-const Loading = ({ isLoading, children }) => {
-  if (isLoading) {
+export const Loading = () => {
+    const { isLoading } = useLoading();
+
+    if (!isLoading) return null;
+
     return (
-      <div className="loading">
-        <div className="loading-circle"></div>
-      </div>
+        <Box
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+                width: '100vw',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                zIndex: 10000,
+            }}
+        >
+            <CircularProgress size={200} thickness={4} />
+        </Box>
     );
-  }
-
-  return children;
 };
-
-export default Loading;
