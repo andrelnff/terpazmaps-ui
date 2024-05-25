@@ -3,11 +3,10 @@ import { useDrawingManager } from '../../hooks/useDrawingManager';
 import { useGeoJSON } from '../../hooks/useGeoJSON';
 import './DrawingManager.css';
 import DrawingControls from "../drawingControls/DrawingControls";
-import {Loading} from "../loading/Loading";
 
 function DrawingManager({ map }) {
   const { deleteAllOverlays, savePolygonGeoJSON, drawingManager } = useDrawingManager(map);
-  const { fetchGeoJSON, isLoading } = useGeoJSON(map);
+  const { fetchGeoJSON } = useGeoJSON(map);
 
   const setDrawingMode = (mode) => {
     if (drawingManager) {
@@ -20,13 +19,11 @@ function DrawingManager({ map }) {
   }, [map, fetchGeoJSON]);
 
     return (
-        <Loading isLoading={isLoading}>
-            <DrawingControls
-                setDrawingMode={setDrawingMode}
-                savePolygonGeoJSON={savePolygonGeoJSON}
-                deleteAllOverlays={deleteAllOverlays}
-            />
-        </Loading>
+        <DrawingControls
+            setDrawingMode={setDrawingMode}
+            savePolygonGeoJSON={savePolygonGeoJSON}
+            deleteAllOverlays={deleteAllOverlays}
+        />
     );
 }
 

@@ -5,12 +5,14 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import MapsPage from "./pages/MapsPage/MapsPage";
 import {MapProvider} from "./context/mapContext";
 import {LoadingProvider} from "./context/loadingContext";
+import {Loading} from "./components/loading/Loading";
 
 function App() {
     return (
         <BrowserRouter>
             <AuthProvider>
                 <LoadingProvider>
+                    <Loading />
                     <MapProvider>
                         <Routes>
                             <Route path="/login" element={<LoginPage />} />
