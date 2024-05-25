@@ -4,12 +4,15 @@ import FiltroLista from "../filtroLista/FiltroLista";
 import { getStreetConditions } from "../../service/terPazMapService";
 import { useMap } from "../../context/mapContext";
 import { usePolylineDrawer } from "../../hooks/usePolylineDrawer";
+import {useFiltros} from "../../context/filtrosContext";
 
 export function FiltroRuas() {
     const [state, setState] = useState({
         right: false,
     });
-    const { filtros, setFiltros, activeFilters, setActiveFilters, openDrawer, closeDrawer } = useMap();
+    const { openDrawer, closeDrawer } = useMap();
+    const { filtros, setFiltros, activeFilters, setActiveFilters } = useFiltros();
+
     const { drawStreets } = usePolylineDrawer();
 
     useEffect(() => {

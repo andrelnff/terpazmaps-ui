@@ -2,9 +2,11 @@ import { useState, useCallback, useContext, useRef, useEffect } from 'react';
 import { getStreetData } from "../service/terPazMapService";
 import { MapContext } from "../context/mapContext";
 import {useLoading} from "../context/loadingContext";
+import {useFiltros} from "../context/filtrosContext";
 
 export function usePolylineDrawer() {
-  const { map, activeFilters } = useContext(MapContext);
+  const { map } = useContext(MapContext);
+  const { activeFilters } = useFiltros();
   const [allStreets, setAllStreets] = useState(null);
   const polylines = useRef([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);

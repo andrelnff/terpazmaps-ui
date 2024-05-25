@@ -1,8 +1,10 @@
 import { useState, useCallback, useContext } from 'react';import {usePolylineDrawer} from "./usePolylineDrawer";
 import {MapContext} from "../context/mapContext";
+import {useFiltros} from "../context/filtrosContext";
 
 export function useMapCenter() {
-    const { map, desativarTodosFiltros } = useContext(MapContext);
+    const { map } = useContext(MapContext);
+    const { desativarTodosFiltros } = useFiltros();
     const [selectedId, setSelectedId] = useState(null);
     const { fetchStreets } = usePolylineDrawer();
 

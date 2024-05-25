@@ -23,6 +23,8 @@ function SelectRegion(props) {
     const [region, setRegion] = useState('');
     const { idNameList } = useMap();
 
+    console.log("renderizei select")
+
     const handleChange = (event) => {
         setRegion(event.target.value);
         if (props.onChange) {
