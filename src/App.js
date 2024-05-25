@@ -6,6 +6,7 @@ import MapsPage from "./pages/MapsPage/MapsPage";
 import {MapProvider} from "./context/mapContext";
 import {LoadingProvider} from "./context/loadingContext";
 import {Loading} from "./components/loading/Loading";
+import {FiltrosProvider} from "./context/filtrosContext";
 
 function App() {
     return (
@@ -14,11 +15,13 @@ function App() {
                 <LoadingProvider>
                     <Loading />
                     <MapProvider>
-                        <Routes>
-                            <Route path="/login" element={<LoginPage />} />
-                            <Route path="/maps" element={<MapsPage />} />
-                            <Route path="*" element={<Navigate to="/login" replace />} />
-                        </Routes>
+                        <FiltrosProvider>
+                            <Routes>
+                                <Route path="/login" element={<LoginPage />} />
+                                <Route path="/maps" element={<MapsPage />} />
+                                <Route path="*" element={<Navigate to="/login" replace />} />
+                            </Routes>
+                        </FiltrosProvider>
                     </MapProvider>
                 </LoadingProvider>
             </AuthProvider>
