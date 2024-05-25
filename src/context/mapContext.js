@@ -14,19 +14,11 @@ export const MapProvider = ({ children }) => {
             ...filtro,
             ativo: false
         })));
-    }, [setFiltros]); // Atualiza para usar setFiltros
-
+    }, [setFiltros]);
 
     const updateIdNameList = useCallback((newList) => {
         setIdNameList(newList);
     }, []);
-
-    const centerMapOnRegion = useCallback((region) => {
-        if (map && region) {
-            map.setCenter({ lat: region.lat, lng: region.lng });
-            map.setZoom(15);
-        }
-    }, [map]);
 
     const openDrawer = useCallback(() => {
         setDrawerOpen(true);
@@ -54,8 +46,7 @@ export const MapProvider = ({ children }) => {
         drawerOpen,
         openDrawer,
         closeDrawer,
-        centerMapOnRegion
-    }), [filtros, desativarTodosFiltros, idNameList, updateIdNameList, activeFilters, map, setMap, drawerOpen, openDrawer, closeDrawer, centerMapOnRegion]);
+    }), [filtros, desativarTodosFiltros, idNameList, updateIdNameList, activeFilters, map, setMap, drawerOpen, openDrawer, closeDrawer]);
 
     return (
         <MapContext.Provider value={value}>

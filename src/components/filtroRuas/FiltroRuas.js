@@ -35,7 +35,6 @@ export function FiltroRuas() {
     useEffect(() => {
         const newActiveFilters = filtros.filter(filtro => filtro.ativo).map(filtro => filtro.label);
         setActiveFilters(newActiveFilters);
-        console.log(newActiveFilters)
     }, [filtros, setActiveFilters]);
 
     useEffect(() => {
