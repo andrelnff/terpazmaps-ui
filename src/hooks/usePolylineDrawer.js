@@ -12,8 +12,15 @@ export function usePolylineDrawer() {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const { startLoading, stopLoading } = useLoading();
 
+  const clearStreets = useCallback(() => {
+    polylines.current.forEach(polyline => {
+      polyline.setMap(null);
+    });
+    polylines.current = [];
+  }, []);
 
   const fetchStreets = useCallback(async (regionId) => {
+    clearStreets();
     setIsDataLoaded(false); // Reset the isDataLoaded before fetching new data
     try {
       startLoading();
@@ -24,7 +31,7 @@ export function usePolylineDrawer() {
     } catch (err) {
       console.error('Erro ao buscar dados das ruas:', err);
     }
-  }, []);
+  }, [clearStreets]);
 
   const drawStreets = useCallback(() => {
     if (!isDataLoaded) return;
