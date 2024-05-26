@@ -40,9 +40,10 @@ export function MenuLateral({ open, handleDrawerClose }) {
                         backgroundColor: '#1976d2',
                     },
                 }}
-                variant="persistent"
+                variant="temporary"
                 anchor="left"
                 open={open}
+                onClose={handleDrawerClose}
             >
                 <DrawerHeader>
                     <IconButton onClick={handleDrawerClose} sx={{ color: '#ffffff' }}>
@@ -65,3 +66,5 @@ export function MenuLateral({ open, handleDrawerClose }) {
         </Box>
     );
 }
+
+export default MenuLateral;
