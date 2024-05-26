@@ -5,10 +5,10 @@ import {FiltroRuas} from "./filtroRuas/FiltroRuas";
 import {MapContext} from "../context/mapContext";
 
 function GoogleMap() {
-    const { setMap, map: globalMap } = useContext(MapContext); // Use o contexto para acessar e definir o mapa
+    const { setMap, map: globalMap } = useContext(MapContext);
 
     useEffect(() => {
-        if (window.google && window.google.maps && !globalMap) { // Verifique se o mapa global ainda não foi definido
+        if (window.google && window.google.maps && !globalMap) {
             const mapInstance = new window.google.maps.Map(document.getElementById("map"), {
                 center: { lat: -1.4031, lng: -48.4307 },
                 disableDefaultUI: true,

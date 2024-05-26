@@ -1,4 +1,3 @@
-// OverlayControls.js
 import React from 'react';
 
 function OverlayControls({ onDelete, onSave }) {

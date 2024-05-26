@@ -21,12 +21,12 @@ export function usePolylineDrawer() {
 
   const fetchStreets = useCallback(async (regionId) => {
     clearStreets();
-    setIsDataLoaded(false); // Reset the isDataLoaded before fetching new data
+    setIsDataLoaded(false);
     try {
       startLoading();
       const data = await getStreetData(regionId);
       setAllStreets(data);
-      setIsDataLoaded(true); // Set to true after successful data fetch
+      setIsDataLoaded(true);
       stopLoading();
     } catch (err) {
       console.error('Erro ao buscar dados das ruas:', err);

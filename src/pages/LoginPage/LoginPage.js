@@ -57,7 +57,7 @@ function LoginPage() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         fullWidth
-                        margin="normal" // Adiciona um espaçamento
+                        margin="normal"
                     />
                 </div>
                 {error && <span key={Date.now()} className="fade-out">Email ou senha incorretas!</span>}

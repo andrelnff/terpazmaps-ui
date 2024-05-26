@@ -13,7 +13,7 @@ export async function getMapsByUser(uid) {
   if (!response.ok) {
     throw new Error(`GET request failed with status ${response.status}`);
   }
-  return await response.json(); // Retorna os dados completos
+  return await response.json();
 }
 
 export async function post(uid, mapName, data) {
@@ -22,7 +22,7 @@ export async function post(uid, mapName, data) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(data) // Aqui estamos enviando todo o objeto data, que inclui limites, ruas e descarte
+    body: JSON.stringify(data)
   });
   if (!response.ok) {
     throw new Error(`POST request failed with status ${response.status}`);
