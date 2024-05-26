@@ -6,6 +6,7 @@ import Select from '@mui/material/Select';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import {useMap} from "../../context/mapContext";
+import {useMapCenter} from "../../hooks/useMapCenter";
 
 const StyledSelect = styled(Select)(() => ({
     backgroundColor: 'white',
@@ -19,18 +20,21 @@ const StyledMenuItem = styled(MenuItem)(() => ({
     },
 }));
 
-function SelectRegion(props) {
+function SelectRegion() {
     const [region, setRegion] = useState('');
     const { idNameList } = useMap();
+    const { handleMapSelect } = useMapCenter();
 
     console.log("renderizei select")
 
     const handleChange = (event) => {
         setRegion(event.target.value);
-        if (props.onChange) {
-            props.onChange(event.target.value);
+        const selectedRegion = idNameList.find(r => r.name === event.target.value);
+        if (selectedRegion && selectedRegion.coordinates) {
+            handleMapSelect(selectedRegion.id, selectedRegion.coordinates);
         }
     };
+
 
     return (
         <ClickAwayListener onClickAway={() => setRegion('')}>

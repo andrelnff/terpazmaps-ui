@@ -43,7 +43,7 @@ export function useGeoJSON(map) {
             polygon.setMap(map);
             polygons.current.push(polygon);
 
-            tempList.push({id: mapData.properties.ID, name: mapData.properties.Nome});
+            tempList.push({id: mapData.properties.ID, name: mapData.properties.Nome, coordinates: mapData.properties.Centro.coordinates});
           }
         });
       }
