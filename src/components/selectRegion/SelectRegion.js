@@ -25,8 +25,6 @@ function SelectRegion() {
     const { idNameList } = useMap();
     const { handleMapSelect } = useMapCenter();
 
-    console.log("renderizei select")
-
     const handleChange = (event) => {
         setRegion(event.target.value);
         const selectedRegion = idNameList.find(r => r.name === event.target.value);

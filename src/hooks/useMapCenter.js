@@ -1,6 +1,6 @@
 import { useState, useCallback, useContext } from 'react';
 import {usePolylineDrawer} from "./usePolylineDrawer";
-import {MapContext} from "../context/mapContext";
+import {MapContext, useMap} from "../context/mapContext";
 import {useFiltros} from "../context/filtrosContext";
 
 export function useMapCenter() {
@@ -8,6 +8,7 @@ export function useMapCenter() {
     const { desativarTodosFiltros } = useFiltros();
     const [selectedId, setSelectedId] = useState(null);
     const { fetchStreets } = usePolylineDrawer();
+    const { toggleDrawer } = useMap();
 
     const centerMap = useCallback((targetCoordinates) => {
         if (map) {
@@ -34,6 +35,7 @@ export function useMapCenter() {
         centerMap(coordinates);
         fetchStreets(id);
         desativarTodosFiltros();
+        toggleDrawer('right', true);
     }, [centerMap, desativarTodosFiltros, fetchStreets]);
 
     const handlePolygonClick = useCallback((mapData) => {

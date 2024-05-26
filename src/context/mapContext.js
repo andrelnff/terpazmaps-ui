@@ -5,24 +5,19 @@ export const MapContext = createContext(null);
 export const MapProvider = ({ children }) => {
     const [idNameList, setIdNameList] = useState([]);
     const [map, setMapState] = useState(null);
-    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [drawerState, setDrawerState] = useState({ right: false });
 
     const updateIdNameList = useCallback((newList) => {
         setIdNameList(newList);
     }, []);
 
-    const openDrawer = useCallback(() => {
-        setDrawerOpen(true);
-    }, []);
-
-    const closeDrawer = useCallback(() => {
-        setDrawerOpen(false);
-    }, []);
-
-
     const setMap = useCallback((mapInstance) => {
         console.log('atualização de mapa')
         setMapState(mapInstance);
+    }, []);
+
+    const toggleDrawer = useCallback((anchor, open) => {
+        setDrawerState(prevState => ({ ...prevState, [anchor]: open }));
     }, []);
 
     const value = useMemo(() => ({
@@ -30,10 +25,9 @@ export const MapProvider = ({ children }) => {
         updateIdNameList,
         map,
         setMap,
-        drawerOpen,
-        openDrawer,
-        closeDrawer,
-    }), [idNameList, updateIdNameList, map, setMap, drawerOpen, openDrawer, closeDrawer]);
+        drawerState,
+        toggleDrawer,
+    }), [idNameList, updateIdNameList, map, setMap, drawerState, toggleDrawer]);
 
     return (
         <MapContext.Provider value={value}>

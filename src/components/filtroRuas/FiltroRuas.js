@@ -1,17 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Drawer } from "@mui/material";
+import React, { useEffect, useCallback } from 'react';
+import { Drawer } from "@mui/material";
 import FiltroLista from "../filtroLista/FiltroLista";
 import { getStreetConditions } from "../../service/terPazMapService";
-import { useMap } from "../../context/mapContext";
 import { usePolylineDrawer } from "../../hooks/usePolylineDrawer";
 import {useFiltros} from "../../context/filtrosContext";
+import {useMap} from "../../context/mapContext";
 
 export function FiltroRuas() {
-    const [state, setState] = useState({
-        right: false,
-    });
-    const { openDrawer, closeDrawer } = useMap();
     const { filtros, setFiltros, activeFilters, setActiveFilters } = useFiltros();
+    const { drawerState, toggleDrawer } = useMap();
 
     const { drawStreets } = usePolylineDrawer();
 
@@ -30,7 +27,7 @@ export function FiltroRuas() {
             }
         };
 
-        if (filtros.length === 0) { // Verifica se o estado global de filtros está vazio antes de inicializar
+        if (filtros.length === 0) {
             initializeFilters();
         }
     }, [setFiltros, filtros.length]);
@@ -52,31 +49,11 @@ export function FiltroRuas() {
         setFiltros(newFiltros);
     }, [filtros, setFiltros]);
 
-    const toggleDrawer = useCallback((anchor, open) => {
-        setState(prevState => ({ ...prevState, [anchor]: open }));
-        if (open) {
-            openDrawer();
-        } else {
-            closeDrawer();
-        }
-    }, [openDrawer, closeDrawer]);
-
     return (
         <div>
-            <Button
-                sx={{
-                    position: 'fixed',
-                    left: 16,
-                    bottom: 16,
-                    zIndex: 9999,
-                }}
-                onClick={() => toggleDrawer('right', true)}
-            >
-                Abrir Drawer
-            </Button>
             <Drawer
                 anchor='right'
-                open={state['right']}
+                open={drawerState['right']}
                 onClose={() => toggleDrawer('right', false)}
                 sx={{
                     '& .MuiDrawer-paper': {
