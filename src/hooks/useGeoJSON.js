@@ -4,13 +4,14 @@ import { useMapCenter } from './useMapCenter';
 import {useMap} from "../context/mapContext";
 import {useLoading} from "../context/loadingContext";
 
-export function useGeoJSON(map) {
+export function useGeoJSON() {
   const polygons = useRef([]);
+  const { map } = useMap();
   const { handlePolygonClick } = useMapCenter(map);
   const { updateIdNameList } = useMap();
   const { startLoading, stopLoading } = useLoading();
 
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchGeoJSON = useCallback(async () => {
     startLoading();
     let tempList = [];

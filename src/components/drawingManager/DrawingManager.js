@@ -4,9 +4,9 @@ import { useGeoJSON } from '../../hooks/useGeoJSON';
 import './DrawingManager.css';
 import DrawingControls from "../drawingControls/DrawingControls";
 
-function DrawingManager({ map }) {
-  const { deleteAllOverlays, savePolygonGeoJSON, drawingManager } = useDrawingManager(map);
-  const { fetchGeoJSON } = useGeoJSON(map);
+function DrawingManager() {
+  const { deleteAllOverlays, savePolygonGeoJSON, drawingManager } = useDrawingManager();
+  const { fetchGeoJSON } = useGeoJSON();
 
   const setDrawingMode = (mode) => {
     if (drawingManager) {
@@ -16,7 +16,7 @@ function DrawingManager({ map }) {
 
   useEffect(() => {
     fetchGeoJSON();
-  }, [map, fetchGeoJSON]);
+  }, [fetchGeoJSON]);
 
     return (
         <DrawingControls

@@ -1,10 +1,12 @@
 import { useRef, useEffect } from 'react';
 import { createDrawingManager, setupEventListeners } from '../components/DrawingManagerFunctions';
 import { post } from '../service/mapService';
+import {useMap} from "../context/mapContext";
 
 
 
-export function useDrawingManager(map) {
+export function useDrawingManager() {
+  const { map } = useMap();
   const drawingManagerRef = useRef(null);
   const polygonRef = useRef(null);
   const overlaysRef = useRef([]);
