@@ -27,7 +27,7 @@ export function setupEventListeners(drawingManagerRef, polygonRef, overlaysRef) 
         drawingManagerRef.current.setDrawingMode(null);
       } else if (event.type === 'marker' || event.type === 'polyline') {
         if (polygonRef.current) {
-          let contains = false;
+          let contains;
           if (event.type === 'marker') {
             contains = window.google.maps.geometry.poly.containsLocation(event.overlay.getPosition(), polygonRef.current);
           } else { 
