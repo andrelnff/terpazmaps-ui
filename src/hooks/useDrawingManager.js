@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { createDrawingManager, setupEventListeners } from '../components/DrawingManagerFunctions';
+import { createDrawingManager, setupEventListeners } from '../components/drawingManager/DrawingManagerFunctions';
 import { post } from '../service/mapService';
 import {useMap} from "../context/mapContext";
 

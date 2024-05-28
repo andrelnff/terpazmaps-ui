@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { Drawer } from "@mui/material";
-import FiltroLista from "../filtroLista/FiltroLista";
+import FiltroLista from "./FiltroLista";
 import { getStreetConditions } from "../../service/terPazMapService";
 import { usePolylineDrawer } from "../../hooks/usePolylineDrawer";
 import {useFiltros} from "../../context/filtrosContext";

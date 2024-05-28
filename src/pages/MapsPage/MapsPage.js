@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {CustomAppBar} from "../../components/appBar/CustomAppBar";
 import {MenuLateral} from "../../components/menuLateral/MenuLateral";
-import GoogleMap from "../../components/GoogleMap";
+import GoogleMap from "../../components/googleMap/GoogleMap";
 import {isTokenValid} from "../../service/authService";
 import {useNavigate} from "react-router-dom";
 

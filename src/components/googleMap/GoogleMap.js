@@ -1,8 +1,8 @@
 import React, {useContext, useEffect} from "react";
-import DrawingManager from "./drawingManager/DrawingManager";
-import SelectRegion from "./selectRegion/SelectRegion";
-import {FiltroRuas} from "./filtroRuas/FiltroRuas";
-import {MapContext} from "../context/mapContext";
+import DrawingManager from "../drawingManager/DrawingManager";
+import SelectRegion from "../selectRegion/SelectRegion";
+import {FiltroRuas} from "../filtroRuas/FiltroRuas";
+import {MapContext} from "../../context/mapContext";
 
 function GoogleMap() {
     const { setMap, map } = useContext(MapContext);
