@@ -1,13 +1,12 @@
-import {useCallback, useContext, useState} from 'react';
+import {useCallback, useState} from 'react';
 import {usePolylineDrawer} from "./usePolylineDrawer";
-import {MapContext, useMap} from "../context/mapContext";
+import {useMap} from "../context/mapContext";
 import {useFiltros} from "../context/filtrosContext";
 
 export function useMapCenter() {
-    const { map} = useContext(MapContext);
     const { desativarTodosFiltros } = useFiltros();
     const { fetchStreets } = usePolylineDrawer();
-    const { toggleDrawer } = useMap();
+    const { map, toggleDrawer, setSelectedMap } = useMap();
     const [selectedMapId, setSelectedMapId] = useState(null);
 
     const centerMap = useCallback((targetCoordinates) => {
@@ -31,6 +30,7 @@ export function useMapCenter() {
     }, [map]);
 
     const handleMapSelect = useCallback((id, coordinates) => {
+        setSelectedMap(id);
         centerMap(coordinates);
         fetchStreets(id).then(r => {
             desativarTodosFiltros();

@@ -1,11 +1,13 @@
-import React, {useContext, useEffect} from "react";
+// src/components/googleMap/GoogleMap.js
+import React, {useEffect, useRef} from "react";
 import DrawingManager from "../drawingManager/DrawingManager";
 import SelectRegion from "../selectRegion/SelectRegion";
 import {FiltroRuas} from "../filtroRuas/FiltroRuas";
-import {MapContext} from "../../context/mapContext";
+import {useMap} from "../../context/mapContext";
 
 function GoogleMap() {
-    const { setMap, map } = useContext(MapContext);
+    const { setMap, map, setSelectedMap } = useMap();
+    const mapRef = useRef(null);
 
     useEffect(() => {
         if (window.google && window.google.maps && !map) {
@@ -19,15 +21,28 @@ function GoogleMap() {
         }
     }, [setMap, map]);
 
-  return (
-    <div style={{ position: 'relative' }}>
-      <div id="map" style={{ width: '100%', height: '100vh' }}>
-        {map && <DrawingManager />}
-      </div>
-      <SelectRegion/>
-      <FiltroRuas/>
-    </div>
-  );
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (mapRef.current && !mapRef.current.contains(event.target)) {
+                setSelectedMap(null);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [setSelectedMap]);
+
+    return (
+        <div style={{ position: 'relative' }} ref={mapRef}>
+            <div id="map" style={{ width: '100%', height: '100vh' }}>
+                {map && <DrawingManager />}
+            </div>
+            <SelectRegion/>
+            <FiltroRuas/>
+        </div>
+    );
 }
 
 export default GoogleMap;

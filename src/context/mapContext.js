@@ -6,6 +6,8 @@ export const MapProvider = ({ children }) => {
     const [idNameList, setIdNameList] = useState([]);
     const [map, setMapState] = useState(null);
     const [drawerState, setDrawerState] = useState({ right: false });
+    const [selectedMap, setSelectedMap] = useState(null);
+
 
     const updateIdNameList = useCallback((newList) => {
         setIdNameList(newList);
@@ -27,7 +29,9 @@ export const MapProvider = ({ children }) => {
         setMap,
         drawerState,
         toggleDrawer,
-    }), [idNameList, updateIdNameList, map, setMap, drawerState, toggleDrawer]);
+        selectedMap,
+        setSelectedMap,
+    }), [idNameList, updateIdNameList, map, setMap, drawerState, toggleDrawer, selectedMap, setSelectedMap]);
 
     return (
         <MapContext.Provider value={value}>

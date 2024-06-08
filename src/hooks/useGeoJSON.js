@@ -1,17 +1,15 @@
-import { useRef,  useCallback } from 'react';
-import { getAllRegions } from '../service/terPazMapService';
-import { useMapCenter } from './useMapCenter';
+import {useCallback, useRef} from 'react';
 import {useMap} from "../context/mapContext";
+import {useMapCenter} from "./useMapCenter";
 import {useLoading} from "../context/loadingContext";
+import {getAllRegions} from "../service/terPazMapService";
 
 export function useGeoJSON() {
   const polygons = useRef([]);
-  const { map } = useMap();
+  const { map, selectedMap, updateIdNameList } = useMap();
   const { handlePolygonClick } = useMapCenter(map);
-  const { updateIdNameList } = useMap();
   const { startLoading, stopLoading } = useLoading();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchGeoJSON = useCallback(async () => {
     startLoading();
     let tempList = [];
@@ -27,6 +25,9 @@ export function useGeoJSON() {
         const mapas = userData.features;
         mapas.forEach((mapData) => {
           if (mapData) {
+            if (selectedMap !== null && mapData.properties.ID !== selectedMap) {
+              return;
+            }
             const polygon = new window.google.maps.Polygon({
               paths: mapData.geometry.coordinates[0].map(coord => ({ lat: coord[1], lng: coord[0] })),
               map: map,
@@ -53,7 +54,7 @@ export function useGeoJSON() {
     }
     stopLoading();
     updateIdNameList(tempList);
-  }, [updateIdNameList, map, handlePolygonClick]);
+  }, [updateIdNameList, map, handlePolygonClick, selectedMap]);
 
-  return { fetchGeoJSON};
+  return { fetchGeoJSON };
 }
