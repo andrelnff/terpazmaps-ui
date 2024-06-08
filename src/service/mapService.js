@@ -29,3 +29,28 @@ export async function post(uid, mapName, data) {
   }
   return 'ok';
 }
+
+export async function addRating(mapId, rating, comment, user) {
+  const response = await fetch(`${API_URL}/rating/${mapId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ map: mapId, stars: rating, comment, user })
+  });
+  if (!response.ok) {
+    throw new Error(`POST request failed with status ${response.status}`);
+  }
+  return 'ok';
+}
+
+export async function getRatings(mapId) {
+  const response = await fetch(`${API_URL}/ratings/${mapId}`);
+  console.log(response);
+  if (!response.ok) {
+    throw new Error(`GET request failed with status ${response.status}`);
+  }
+  const data = await response.json();
+  console.log(data)
+  return Object.values(data);
+}
