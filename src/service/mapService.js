@@ -46,11 +46,9 @@ export async function addRating(mapId, rating, comment, user) {
 
 export async function getRatings(mapId) {
   const response = await fetch(`${API_URL}/ratings/${mapId}`);
-  console.log(response);
   if (!response.ok) {
     throw new Error(`GET request failed with status ${response.status}`);
   }
   const data = await response.json();
-  console.log(data)
   return Object.values(data);
 }

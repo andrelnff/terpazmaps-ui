@@ -14,7 +14,6 @@ export const MapProvider = ({ children }) => {
     }, []);
 
     const setMap = useCallback((mapInstance) => {
-        console.log('atualização de mapa')
         setMapState(mapInstance);
     }, []);
 

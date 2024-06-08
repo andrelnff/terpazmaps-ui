@@ -1,4 +1,3 @@
-// src/components/googleMap/GoogleMap.js
 import React, {useEffect, useRef} from "react";
 import DrawingManager from "../drawingManager/DrawingManager";
 import SelectRegion from "../selectRegion/SelectRegion";
@@ -22,17 +21,20 @@ function GoogleMap() {
     }, [setMap, map]);
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (mapRef.current && !mapRef.current.contains(event.target)) {
-                setSelectedMap(null);
-            }
+        const handleClickOnMap = () => {
+            setSelectedMap(null);
         };
 
-        document.addEventListener('mousedown', handleClickOutside);
+        if (map) {
+            map.addListener('mousedown', handleClickOnMap);
+        }
+
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            if (map) {
+                map.removeListener('mousedown', handleClickOnMap);
+            }
         };
-    }, [setSelectedMap]);
+    }, [map, setSelectedMap]);
 
     return (
         <div style={{ position: 'relative' }} ref={mapRef}>
